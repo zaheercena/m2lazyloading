@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<body>
+    <referenceContainer name="order.success.additional.info">
+        <block
+               class="WeSupply\Toolbox\Block\Notification"
+               name="wesupply.notification"
+               template="WeSupply_Toolbox::notification.phtml"
+               ifconfig="wesupply_api/step_4/checkout_page_notification"
+               after="-">
+        </block>
+    </referenceContainer>
+</body>

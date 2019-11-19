@@ -1,0 +1,52 @@
+<?php if ($block->getDeliveryEstimationsEnabled() && $block->productIsShippable() && $this->getEstimationDisplay()): ?>
+    <?php
+        $helper = $this->helper('WeSupply\Toolbox\Helper\Data');
+        $estimatesHelper = $this->helper('WeSupply\Toolbox\Helper\Estimates');
+        $productId = $this->getProductId();
+        $productType = $this->getProductType();
+        $postCode = $estimatesHelper->getDefaultAddress() ? $estimatesHelper->getDefaultAddress()->getPostcode() : '';
+        $countryCode = $estimatesHelper->getDefaultAddress() ? $estimatesHelper->getDefaultAddress()->getCountryId() : '';
+        $estimateUrl = $this->getDeliveryEstimateUrl('product');
+        $orderWithin = $this->getOrderWithinSeconds();
+        $displaySpinner = $helper->getDisplySpinner();
+        $allowedCountries = $helper->getShippingAllowedCountries();
+    ?>
+    <div id="estimation_wrapper" class="estimation-wrapper">
+        <div class="heading-container">
+            <p class="label">
+                <?= /* @escapeNotVerified */ __('Estimated Arrival') ?>
+            </p>
+            <img id="loader" class="loader" src="<?= /* @escapeNotVerified */ $block->getViewFileUrl('images/loader-1.gif') ?>" alt="<?= /* @escapeNotVerified */ __('Loading...') ?>" />
+        </div>
+        <div class="response-container">
+            <p id="date" class="date"></p>
+            <p id="pre_post_code" class="pre-post-code"><?= /* @escapeNotVerified */ __('at ZIP') ?></p>
+            <p id="post_code" class="post-code"></p>
+            <p id="error" class="error-massage"></p>
+            <div class="input-wrapper">
+                <input type="text" name="visible_post_code" id="visible_post_code" value="<?= /* @escapeNotVerified */ $postCode ?>" />
+            </div>
+            <p id="country_code" class="country-code"></p>
+            <div class="order-within-container">
+                <span><?= /* @escapeNotVerified */ __('Order within ') ?></span>
+                <span id="order_within"></span>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="product_id" value="<?= /* @escapeNotVerified */ $productId ?>" />
+    <input type="hidden" name="product_type" value="<?= /* @escapeNotVerified */ $productType ?>" />
+    <input type="hidden" name="post_code" value="<?= /* @escapeNotVerified */ $postCode ?>" />
+    <input type="hidden" name="country_code" value="<?= /* @escapeNotVerified */ $countryCode ?>" />
+    <input type="hidden" name="has_allowed_countries" value="<?= /* @noEscape */ $allowedCountries ? 1 : 0 ?>" />
+    <input type="hidden" name="order_within" value="<?= /* @noEscape */ $orderWithin ?>" />
+    <input type="hidden" name="display_spinner" value="<?= /* @noEscape */ $displaySpinner ?>" />
+
+    <script>
+        require(['jquery', 'deliveryEstimate' ],
+            function ($, deliveryEstimate) {
+                $(function () {
+                    deliveryEstimate.initProduct('<?= /* @escapeNotVerified */ $estimateUrl; ?>');
+                });
+            });
+    </script>
+<?php endif; ?>

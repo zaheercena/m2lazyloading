@@ -1,0 +1,9 @@
+<?php
+    $order = $this->getOrderId() ? '?orderID=' . $this->getOrderId() : '';
+    $platform = ($this->getOrderId() ? '&' : '?') . 'platformType=' . $this->getPlatform();
+    $weSupplyTrackUrl = $this->getWeSupplyTrackUrl() . $order . $platform;
+?>
+
+<div class="embedded-iframe-container">
+    <iframe class="embedded-iframe" style="width: 100%;" width="100%" src="<?php echo $weSupplyTrackUrl ?>" frameborder="0" scrolling="no" allowfullscreen></iframe>
+</div>

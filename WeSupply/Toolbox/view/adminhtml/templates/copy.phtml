@@ -1,0 +1,43 @@
+<script>
+    require(['jquery'],
+        function ($) {
+            $(document).ready(function() {
+                $('.copy-text').on('click', function() {
+                    var clicked = $(this),
+                        elementId = clicked.data('copy-element');
+                    if ($('#' + elementId).length) {
+
+                        var copyArea = document.createElement('input');
+                        document.body.appendChild(copyArea);
+
+                        switch ($('#' + elementId).prop('nodeName')) {
+                            case 'INPUT':
+                                copyArea.value = $('#' + elementId).val();
+                                break;
+                            default:
+                                copyArea.value = $('#' + elementId).text();
+                                break;
+                        }
+
+                        copyArea.select();
+                        document.execCommand('copy');
+
+                        try {
+                            var successful = document.execCommand('copy');
+                            if (successful) {
+                                clicked.text('Copied');
+                            }
+                        } catch (err) {
+                            clicked.text('Unable to copy!');
+                        }
+
+                        document.body.removeChild(copyArea);
+
+                        setTimeout(function() {
+                            clicked.text('Copy');
+                        }, 3000);
+                    }
+                });
+            });
+        });
+</script>

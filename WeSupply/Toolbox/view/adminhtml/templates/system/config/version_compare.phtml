@@ -1,0 +1,37 @@
+<?php
+    $currentVersion = $this->getCurrentVersion();
+    $versionCompare = $this->compareVersion();
+?>
+<div class="integration-header">
+    <p>
+        <?php echo __('Proactive Package Tracking, Notifications, Store Locator, Returns and RMA, CSAT & NPM, Delivery Estimate - all integrated with Magento 2 and providing the best post-purchase customer experience.') ?>
+        <span class="bold"><?php echo __('Before starting the configuration, make sure to first create a <a href="%1" target="_blank">WeSupply Account HERE</a> and start for FREE.', $this->getWeSupplyUrl()) ?></span>
+    <p>
+    <?php if (!$currentVersion): ?>
+        <p>
+            <?php echo __('Cannot read module version. Please update your extension.') ?>
+            <a href="<?php echo $this->getDownloadLink(); ?>" title="<?php echo __('Download latest version.'); ?>">
+                <?php echo __('Download latest version.'); ?>
+            </a>
+        </p>
+    <?php else: ?>
+        <?php if ($versionCompare): ?>
+            <p>
+                <?php echo __('Current extension version:') ?> <?php echo $this->getCurrentVersion(); ?>
+                <?php if ($versionCompare === 'diff'): ?>
+                    <?php echo __('Please update your extension'); ?>
+                    <a href="<?php echo $this->getDownloadLink(); ?>" title="<?php echo __('Download latest version.'); ?>">
+                        <?php echo __('Download latest version.'); ?>
+                    </a>
+                <?php else: ?>
+                    <?php echo __('- Good Job! You are up to date.'); ?>
+                <?php endif; ?>
+            </p>
+        <?php else: ?>
+            <p>
+                <?php echo __('Current extension version:') ?> <?php echo $this->getCurrentVersion(); ?>
+                <?php echo __('Unable to check latest module version.') ?>
+            </p>
+        <?php endif; ?>
+    <?php endif; ?>
+</div>

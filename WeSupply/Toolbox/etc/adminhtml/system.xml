@@ -1,0 +1,271 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="wesupply" translate="label" sortOrder="1000" class="wesupply-tab">
+            <label>WeSupply</label>
+        </tab>
+        <section id="wesupply_api" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Configuration</label>
+            <tab>wesupply</tab>
+            <resource>WeSupply_Toolbox::APISettings</resource>
+            <group id="module_information" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>WeSupply Configuration (for Magento 2.2.x)</label>
+                <fieldset_css>wesupply-toolbox-header active</fieldset_css>
+                <field id="version_compare" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>WeSupply\Toolbox\Block\System\Config\VersionCompare</frontend_model>
+                </field>
+            </group>
+            <group id="integration" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>WeSupply Integration</label>
+                <attribute type="expanded">1</attribute>
+                <field id="wesupply_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable WeSupply</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="step_2" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Step 1 - Generate Magento Access Key for your WeSupply connection</label>
+                <attribute type="expanded">0</attribute>
+                <comment>
+                    <![CDATA[
+                   Add your WeSupply SubDomain then press Generate to generate and save Magento credentials necessary to be added in WeSupply account.
+                   <br/>Fill in below credentials to your WeSupply account under <strong>Settings -> Providers -> Magento -> Enable</strong>
+                    ]]>
+                </comment>
+                <field id="wesupply_subdomain" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>WeSupply\Toolbox\Block\System\Config\SubdomainText</frontend_model>
+                    <label>WeSupply SubDomain</label>
+                    <validate>required</validate>
+                    <comment>Your WeSupply allocated subdomain configured during WeSupply registration. Also, you can find it under: WeSupply -> Settings -> Providers -> WeSupply API credentials.</comment>
+                </field>
+                <field id="access_key_generate" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>WeSupply\Toolbox\Block\System\Config\Generate</frontend_model>
+                    <label>Generate Access Key</label>
+                </field>
+                <field id="access_key" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>WeSupply\Toolbox\Block\System\Config\AccessKeyText</frontend_model>
+                    <label>Access Key</label>
+                    <comment>Copy this generated Access Key into your WeSupply account</comment>
+                </field>
+                <field id="store_ids" translate="label" type="note" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>WeSupply\Toolbox\Block\System\Config\StoreIdsList</frontend_model>
+                    <label>Store Ids list:</label>
+                    <comment><![CDATA[ Use <strong>All</strong> instead of a specific id, to synchronize orders from all Storeviews]]></comment>
+                </field>
+                <field id="api_endpoint_info" translate="label" type="note" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API Endpoint</label>
+                    <comment model="WeSupply\Toolbox\Model\ApiInfoComment"></comment>
+                </field>
+                <depends>
+                    <field id="wesupply_api/integration/wesupply_enabled">1</field>
+                </depends>
+            </group>
+            <group id="step_1" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Step 2 - Add your WeSupply Sub-domain and API credentials</label>
+                <attribute type="expanded">0</attribute>
+                <comment>
+                    <![CDATA[
+                     In your WeSupply platform account, go to <strong>Settings -> Providers to access your WeSupply API credentials.</strong>
+                    ]]>
+                </comment>
+                <field id="client_name" translate="label" type="note" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Client Name</label>
+                    <comment model="WeSupply\Toolbox\Model\ClientNameComment"></comment>
+                </field>
+                <field id="wesupply_client_id" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>WeSupply Account Client Id</label>
+                    <comment>You can find the WeSupply Client Id under: WeSupply -> Settings -> Providers -> WeSupply API credentials -> Client Id</comment>
+                </field>
+                <field id="wesupply_client_secret" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>WeSupply Account Client Secret</label>
+                    <comment>You can find the WeSupply Client Secret under: WeSupply -> Settings -> Providers -> WeSupply API credentials -> Client Secret</comment>
+                </field>
+                <field id="wesupply_connection_test" translate="label comment" type="button" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>WeSupply\Toolbox\Block\System\Config\CredentialsCheck</frontend_model>
+                    <label>Test Account Credentials</label>
+                    <comment>Please test your credentials</comment>
+                </field>
+                <depends>
+                    <field id="wesupply_api/integration/wesupply_enabled">1</field>
+                </depends>
+            </group>
+            <group id="step_3" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Use WeSupply for My Account Customer Order View</label>
+                <attribute type="expanded">0</attribute>
+                <comment>
+                    <![CDATA[
+                   If enabled, your logged in customers will have access to advanced order tracking under WeSupply platform once they click <strong>View Order.</strong>
+                    ]]>
+                </comment>
+                <field id="wesupply_order_view_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <comment>Enable to show customers' orders details on WeSupply platform.</comment>
+                    <label>Enable WeSupply Order Details</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="wesupply_order_view_iframe" translate="label" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Select Order View Behavior</label>
+                    <source_model>WeSupply\Toolbox\Model\Config\Source\ViewOrderBehavior</source_model>
+                    <depends>
+                        <field id="wesupply_order_view_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="enable_delivery_estimations_header_link" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable "Tracking Info" Header Link</label>
+                    <comment>
+                        <![CDATA[
+                        Display "Tracking Info" link in the store header<br/>
+                        Tracking info link will display a page where the customers will be able to view advanced order details based on order number and email address.
+                        ]]>
+                    </comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="wesupply_tracking_info_iframe" translate="label" type="select" sortOrder="22" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Select Tracking Info Behavior</label>
+                    <source_model>WeSupply\Toolbox\Model\Config\Source\TrackingInfoBehavior</source_model>
+                    <depends>
+                        <field id="enable_delivery_estimations_header_link">1</field>
+                    </depends>
+                </field>
+                <depends>
+                    <field id="wesupply_api/integration/wesupply_enabled">1</field>
+                </depends>
+            </group>
+            <group id="step_4" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Allow users to subscribe to SMS alert notification on Checkout Success page</label>
+                <attribute type="expanded">0</attribute>
+                <comment>
+                    <![CDATA[
+                   If enabled, your customers will have the option to subscribe to SMS order tracking once the purchase is complete.
+                   <br/>
+                   <strong style="color: #ff0000">SMS alert notification is only available for WeSupply Startup and Pro Plan.</strong>
+                    ]]>
+                </comment>
+                <field id="checkout_page_notification" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable SMS Notification Signup Section</label>
+                    <comment>Display SMS signup section on Success Page. This allows customers to subscribe to receive SMS notifications regarding order and shipping statuses</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="notification_type" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Insert SMS Notification Section in</label>
+                    <comment>
+                        <![CDATA[
+                        If the <strong>Widget</strong> option is selected, you can display the SMS notification sign up section on the success page, by inserting the widget in a custom CMS Block.
+                        <br/>
+                        Name of the widget is: <strong>WeSupply Toolbox SMS Notification Widget</strong>
+                        ]]>
+                    </comment>
+                    <source_model>WeSupply\Toolbox\Model\Config\Source\NotificationDesignType</source_model>
+                    <depends>
+                        <field id="wesupply_api/step_4/checkout_page_notification">1</field>
+                    </depends>
+                </field>
+                <field id="design_notification" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>SMS Notification Signup Section design</label>
+                    <source_model>WeSupply\Toolbox\Model\Config\Source\NotificationDesignMode</source_model>
+                    <comment>Select design version for SMS Notification section</comment>
+                    <depends>
+                        <field id="wesupply_api/step_4/checkout_page_notification">1</field>
+                        <field id="wesupply_api/step_4/notification_type">default</field>
+                    </depends>
+                </field>
+                <field id="design_notification_alingment" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>SMS Notification Signup Section alignment</label>
+                    <comment>Select alignment for SMS Notification section</comment>
+                    <source_model>WeSupply\Toolbox\Model\Config\Source\NotificationDesignModeAlignment</source_model>
+                    <depends>
+                        <field id="wesupply_api/step_4/checkout_page_notification">1</field>
+                        <field id="wesupply_api/step_4/notification_type">default</field>
+                    </depends>
+                </field>
+                <depends>
+                    <field id="wesupply_api/integration/wesupply_enabled">1</field>
+                </depends>
+            </group>
+            <group id="step_5" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Allow logged in/guest customers to receive estimations for delivery date</label>
+                <attribute type="expanded">0</attribute>
+                <comment>
+                    <![CDATA[
+                   If enabled, your customers will have the possibility to get an estimations on the delivery time based on their IP address location detection,
+                   <br />or by entering a specific zip-code directly on the product page, shopping cart and checkout page.
+                   <br/>
+                   <strong style="color: #ff0000">Estimate Delivery Date is only available for WeSupply Startup and Pro Plan.</strong>
+                    ]]>
+                </comment>
+                <field id="enable_delivery_estimations" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Delivery Estimations</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="estimation_display_spinner" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display Spinner While Loading</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="estimation_product_attributes" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Attributes</label>
+                    <source_model>WeSupply\Toolbox\Model\Config\Source\ProductAttributes</source_model>
+                    <comment>Product attributes used by WeSupply Platform to create delivery estimation logic.</comment>
+                    <depends>
+                        <field id="wesupply_api/step_5/enable_delivery_estimations">1</field>
+                    </depends>
+                </field>
+                <field id="estimation_range" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Add Estimations Range</label>
+                    <validate>validate-number</validate>
+                    <comment>Set additional days for delivery estimations. Eg: If you set range with value 2 and  shipping vendor estimation is for 28 April, shown estimation will be as follows: 28 April - 30 April</comment>
+                    <depends>
+                        <field id="wesupply_api/step_5/enable_delivery_estimations">1</field>
+                    </depends>
+                </field>
+                <field id="estimation_display" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Estimation Display Mode</label>
+                    <source_model>WeSupply\Toolbox\Model\Config\Source\EstimationDisplay</source_model>
+                    <comment>Product attributes used by WeSupply Platform to create delivery estimation logic.</comment>
+                    <depends>
+                        <field id="wesupply_api/step_5/enable_delivery_estimations">1</field>
+                    </depends>
+                </field>
+                <field id="estimation_format" translate="label" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Estimations Format</label>
+                    <source_model>WeSupply\Toolbox\Model\Config\Source\EstimationFormat</source_model>
+                    <depends>
+                        <field id="wesupply_api/step_5/enable_delivery_estimations">1</field>
+                    </depends>
+                </field>
+                <field id="estimation_order_within" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>"Order within" Display</label>
+                    <validate>validate-number</validate>
+                    <comment>Display "Order within" if remaining time is lower than this value (in hours).</comment>
+                    <depends>
+                        <field id="wesupply_api/step_5/enable_delivery_estimations">1</field>
+                    </depends>
+                </field>
+                <field id="estimation_default_carrier" translate="label" type="note" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Shipping Vendor</label>
+                    <comment>
+                        <![CDATA[<span style="color: #ff0000;"><b>NOTE</b>: Please make sure you set this up in WeSupply Platform.</span>]]>
+                    </comment>
+                    <depends>
+                        <field id="wesupply_api/step_5/enable_delivery_estimations">1</field>
+                    </depends>
+                </field>
+                <depends>
+                    <field id="wesupply_api/integration/wesupply_enabled">1</field>
+                </depends>
+            </group>
+            <group id="step_6" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Store Locator Settings</label>
+                <field id="store_locator_cms" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Store Locator CMS Page</label>
+                    <source_model>Magento\Cms\Model\Config\Source\Page</source_model>
+                </field>
+                <field id="store_details_cms" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Store Details CMS Page</label>
+                    <source_model>Magento\Cms\Model\Config\Source\Page</source_model>
+                </field>
+                <depends>
+                    <field id="wesupply_api/integration/wesupply_enabled">1</field>
+                </depends>
+            </group>
+        </section>
+    </system>
+</config>

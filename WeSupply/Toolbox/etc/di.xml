@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="WeSupply\Toolbox\Api\Data\OrderSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="WeSupply\Toolbox\Api\Data\OrderInterface" type="WeSupply\Toolbox\Model\Order" />
+    <preference for="WeSupply\Toolbox\Api\Data\ReturnslistInterface" type="WeSupply\Toolbox\Model\Returnslist" />
+    <preference for="WeSupply\Toolbox\Api\OrderRepositoryInterface" type="WeSupply\Toolbox\Model\OrderRepository" />
+    <preference for="WeSupply\Toolbox\Api\OrderInfoBuilderInterface" type="WeSupply\Toolbox\Model\OrderInfoBuilder" />
+    <preference for="WeSupply\Toolbox\Api\WeSupplyApiInterface" type="WeSupply\Toolbox\Model\WeSupplyApi" />
+    <preference for="WeSupply\Toolbox\Api\ReturnsInterface" type="WeSupply\Toolbox\Model\Returns" />
+    <preference for="WeSupply\Toolbox\Api\GiftcardInterface" type="WeSupply\Toolbox\Model\Giftcard" />
+    <preference for="WeSupply\Toolbox\Api\Data\ShippingMethodInterface" type="WeSupply\Toolbox\Model\Rate\RateInfo" />
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="wesupply-toolbox-orderrespository"
+                type="WeSupply\Toolbox\Plugin\OrderRepositoryInterface" sortOrder="5"/>
+    </type>
+    <type name="Magento\Sales\Model\Order">
+        <plugin name="wesupply-toolbox-order"
+                type="WeSupply\Toolbox\Plugin\Order" sortOrder="5"/>
+    </type>
+    <type name="Magento\Customer\Model\Session">
+        <plugin  name="wesupply-toolbox-customer-login"
+                type="WeSupply\Toolbox\Plugin\Customer\Session" sortOrder="6"/>
+    </type>
+
+    <type name="Magento\Customer\Model\Authentication">
+        <plugin  name="wesupply-toolbox_authentication"
+                 type="WeSupply\Toolbox\Plugin\Customer\Authentication" sortOrder="7"/>
+    </type>
+
+
+<!--    <type name="Magento\Quote\Model\Cart\ShippingMethodConverter">-->
+<!--        <plugin name="add_delivery_date_to_carrier" type="WeSupply\Toolbox\Plugin\Carrier\DeliveryDate" disabled="false" sortOrder="8"/>-->
+<!--    </type>-->
+
+    <type name="Magento\Quote\Model\Cart\ShippingMethodConverter">
+        <plugin name="append_delivery_estimations" type="WeSupply\Toolbox\Plugin\Carrier\AppendEstimations" disabled="false" sortOrder="8"/>
+    </type>
+
+    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin disabled="false" name="remove_estimations_shipping_address" sortOrder="9" type="WeSupply\Toolbox\Plugin\Magento\Checkout\Block\Checkout\LayoutProcessor"/>
+    </type>
+
+    <type name="Magento\Checkout\Block\Cart\LayoutProcessor">
+        <plugin disabled="false" name="remove_estimations_shipping_address_cart" sortOrder="10" type="WeSupply\Toolbox\Plugin\Magento\Checkout\Block\Cart\LayoutProcessor"/>
+    </type>
+
+    <type name="WeSupply\Toolbox\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="WeSupply\Toolbox\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">wesupplyLog</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">WeSupply\Toolbox\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Email\Model\Source\Variables">
+        <plugin name="wesupply-subdomain-variable"
+                type="WeSupply\Toolbox\Plugin\Model\Source\VariablePlugin" sortOrder="1" />
+    </type>
+</config>

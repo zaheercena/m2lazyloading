@@ -1,0 +1,61 @@
+<?php
+
+?>
+<?php /** @var block WeSupply\Toolbox\Block\System\Config\Generate */ ?>
+
+<script>
+    require([
+        'jquery',
+        'prototype'
+    ], function(jQuery){
+        var collectSpan = jQuery('#generate_span');
+
+        jQuery('#generate_button').click(function () {
+            var params = {};
+            new Ajax.Request('<?php echo $block->getAjaxUrl() ?>', {
+                parameters:     params,
+                loaderArea:     false,
+                asynchronous:   true,
+                onCreate: function() {
+                    collectSpan.find('.collected').hide();
+                    collectSpan.find('.processing').show();
+                    jQuery('#generate_message_span').text('');
+                    jQuery('#saving_message_span').hide();
+                },
+                onSuccess: function(response) {
+                    collectSpan.find('.processing').hide();
+
+                    var resultText = '';
+                    if (response.status > 200) {
+                        resultText = response.statusText;
+                    } else {
+                        resultText = '';
+                        collectSpan.find('.collected').show();
+                        jQuery('#saving_message_span').show();
+                    }
+                    jQuery('#wesupply_api_step_2_access_key').val(response.responseJSON.accesskey);
+                    jQuery('#generate_message_span').text(resultText);
+
+                    if(jQuery('#save').length > 0 ) {
+                        setTimeout(function () {
+                            jQuery('#save').click();
+                        }, 1000);
+                    }else{
+                        alert('Make sure to Save credentials after generation');
+                    }
+
+                }
+
+            });
+        });
+
+    });
+</script>
+
+<?php echo $block->getButtonHtml() ?>
+<span class="collect-indicator" id="generate_span">
+    <img class="processing" hidden="hidden" alt="Collecting" style="margin:0 5px" src="<?php echo $block->getViewFileUrl('images/process_spinner.gif') ?>"/>
+    <img class="collected" hidden="hidden" alt="Collected" style="margin:-3px 5px" src="<?php echo $block->getViewFileUrl('images/rule_component_apply.gif') ?>"/>
+    <span style="display:none;" id="saving_message_span"><?php echo __('Saving configuration. Please wait...') ?></span>
+    <span id="generate_message_span"></span>
+</span>

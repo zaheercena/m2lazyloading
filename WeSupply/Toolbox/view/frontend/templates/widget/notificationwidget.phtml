@@ -1,0 +1,83 @@
+<!-- Begin SMS Notification Confirmation Form -->
+<?php
+
+if( !$block->getEnabledNotification() || ($block->getNotificationBoxType() <> $block->getWidgetLocationType())){
+    return;
+}
+
+
+if($block->getDesign() == $block->getFirstDesignConstant())
+{
+    ?>
+    <div id="ws_embed_sms_notification" class="ws-left">
+        <h2>SMS NOTIFICATION</h2>
+        <span class="block-span">Subscribe to receive</span>
+        <span class="block-span mg-top-span">updates via SMS</span>
+        <form id="ws-embedded-sms-notification-form" name="ws-embedded-sms-notification-form" autocomplete="off">
+
+            <div class="ws-field-group control-subs">
+                <input type="text"  name="phone" id="ws-Phone" class="ws-Phone" value="<?php echo $block->getShippingPhone();?>" autocomplete="off">
+                <button class="action subscribe primary sms-subs" title="Subscribe" id="ws-embedded-subscribe" >
+                    <span>Subscribe</span>
+                </button>
+            </div>
+        </form>
+    </div>
+    <div id="ws-responses">
+        <div class="ws_error" id="ws-error-response" style="display:none"></div>
+        <div class="ws_success" id="ws-success-response" style="display:none">Success! You will receive a notification once your order is updated!</div>
+    </div>
+    <?php
+}else{
+    ?>
+    <div id="ws_embed_sms_notification" class="ws_embed_sms_notification">
+        <div class="inline-block">
+            <h2 class="inline-block title-dsg-2">GET SMS UPDATES</h2>
+        </div>
+        <div class="inline-block wpx-span">
+            <span>Subscribe to receive updates via SMS</span>
+        </div>
+        <form id="ws-embedded-sms-notification-form" class="inline-block" name="ws-embedded-sms-notification-form"  autocomplete="off">
+            <div class="ws-field-group control-subs-2">
+                <input type="text"  name="phone" id="ws-Phone" class="ws-phone-dsg-2" value="<?php echo $block->getShippingPhone();?>" autocomplete="off">
+                <button class="action subscribe primary sms-subs" title="Sign Up" id="ws-embedded-subscribe">
+                    <span>Sign Up</span>
+                </button>
+            </div>
+        </form>
+    </div>
+    <div id="ws-responses" class="ws-responses">
+        <div class="ws_error" id="ws-error-response" style="display:none"></div>
+        <div class="ws_success" id="ws-success-response" style="display:none">Success! You will receive a notification once your order is updated!</div>
+    </div>
+    <?php
+}
+?>
+<script>
+    require(['jquery'],function(){
+        jQuery(document).ready(function() {
+            jQuery("#ws-embedded-sms-notification-form").submit(function(){
+                var phone = jQuery("input[name='phone']").val();
+                var orderId = '<?php echo $block->getWesupplyExternalOrderId();?>';
+                var url = '<?php echo $block->getAjaxUrl()?>';
+                jQuery.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {order:orderId, phone:phone},
+                    showLoader: true,
+                    success: function(response){
+                        if(response.success === true){
+                            jQuery('#ws-success-response').show();
+                            jQuery('#ws-embedded-sms-notification-form').html('');
+                        }else{
+                            jQuery('#ws-error-response').show();
+                            jQuery('#ws-error-response').html(response.error);
+                        }
+                    }
+                });
+                return false;
+            });
+        });
+    });
+</script>
+<!-- End SMS Notification Confirmation Form -->

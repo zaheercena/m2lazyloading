@@ -1,0 +1,100 @@
+<?php
+    $phoneCodes = $block->getCountryPhoneCodes();
+    $selectedCountryCode = $this->getShippingCountryCode();
+    $phone = $this->getShippingPhone();
+?>
+<?php if ($block->getEnabledNotification() && $block->getNotificationBoxType() == $block->getDefaultLocationType()): ?>
+    <?php if ($block->getDesign() == $block->getFirstDesignConstant()): ?>
+        <?php $centeredClass = $block->getAlignment() == $block->getCenterAlignmentConstant() ? 'sms-center' : ''; ?>
+        <div id="ws_embed_sms_notification" class="ws-left design-1 <?php echo $centeredClass; ?>">
+            <h2><?php /* @escapeNotVerified */ echo __('SMS NOTIFICATION') ?></h2>
+            <span class="block-span mg-top-span">
+                <?php /* @escapeNotVerified */ echo __('Subscribe to receive updates via SMS') ?>
+            </span>
+            <form id="ws-embedded-sms-notification-form" name="ws-embedded-sms-notification-form" autocomplete="off">
+                <div class="ws-field-group control-subs">
+                    <?php if (is_array($phoneCodes)): ?>
+                        <select name="countryPhoneCode" id="countryPhoneCode" class="ws-Phone ws-country-pc">
+                            <?php foreach ($phoneCodes AS $countryCode => $data): ?>
+                                <option <?php echo $selectedCountryCode == $countryCode ? 'selected="selected"' : ''; ?> value="<?php echo $data['code'] ?>">
+                                    <?php echo $countryCode . ' (' . $data['code'] . ') ';  ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    <?php endif; ?>
+                    <input type="text" name="phone" id="ws-Phone" class="ws-Phone" value="<?php echo $phone; ?>" autocomplete="off">
+                    <button class="action subscribe primary sms-subs" title="Subscribe" id="ws-embedded-subscribe">
+                        <span><?php /* @escapeNotVerified */ echo __('Subscribe') ?></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div id="ws-responses" class="<?php echo $centeredClass ?>">
+            <div class="ws_error" id="ws-error-response" style="display:none"></div>
+            <div class="ws_success" id="ws-success-response" style="display:none">
+                <?php /* @escapeNotVerified */ echo __('Success! You will receive a notification once your order is updated!') ?>
+            </div>
+        </div>
+    <?php else: ?>
+        <?php $centeredClass = $block->getAlignment() == $block->getCenterAlignmentConstant() ? 'sms-center-design-2' : ''; ?>
+        <div id="ws_embed_sms_notification" class="ws_embed_sms_notification <?php echo $centeredClass; ?>">
+            <div class="inline-block">
+                <h2 class="title-dsg-2"><?php /* @escapeNotVerified */ echo __('GET SMS UPDATES') ?></h2>
+                <span class="description-dsg-2"><?php /* @escapeNotVerified */ echo __('Subscribe to receive updates via SMS') ?></span>
+                <form id="ws-embedded-sms-notification-form" class="ws-embedded-sms-notification-form-dsg-2" name="ws-embedded-sms-notification-form" autocomplete="off">
+                    <div class="ws-field-group control-subs-2">
+                        <?php if (is_array($phoneCodes)): ?>
+                            <select class="ws-phone-dsg-2 ws-country-pc-dsg2" id="countryPhoneCode" name="fsdfsdf">
+                                <?php foreach ($phoneCodes AS $countryCode => $data): ?>
+                                    <option <?php echo $selectedCountryCode == $countryCode ? 'selected = "selected"' : ''; ?> value="<?php echo $data['code'] ?>">
+                                        <?php echo $countryCode . ' (' . $data['code'] . ') '; ?>
+                                    </option>
+                                <?php endforeach ?>
+                            </select>
+                        <?php endif; ?>
+                        <input type="text" name="phone" id="ws-Phone" class="ws-phone-dsg-2" value="<?php echo $phone; ?>" autocomplete="off">
+                        <button class="action subscribe primary sms-subs" title="Sign Up" id="ws-embedded-subscribe">
+                            <span><?php /* @escapeNotVerified */ echo __('Sign Up') ?></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div id="ws-responses" class="ws-responses  <?php echo $centeredClass; ?>">
+                <div class="ws_error" id="ws-error-response" style="display:none"></div>
+                <div class="ws_success" id="ws-success-response" style="display:none">
+                    <?php /* @escapeNotVerified */ echo __('Success! You will receive a notification once your order is updated!') ?>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <script>
+        require(['jquery'], function ($) {
+            $(document).ready(function () {
+                $("#ws-embedded-sms-notification-form").submit(function () {
+                    $('#ws-error-response, #ws-success-response').hide();
+                    var phone = $("input[name='phone']").val();
+                    var orderId = '<?php echo $block->getWesupplyExternalOrderId();?>';
+                    var countryCode = $("#countryPhoneCode").val();
+                    var url = '<?php echo $block->getAjaxUrl()?>';
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: {order: orderId, phone: phone, countryCode: countryCode},
+                        showLoader: true,
+                        success: function (response) {
+                            if (response.success === true) {
+                                $('#ws-error-response').hide();
+                                $('#ws-success-response').show();
+                            } else {
+                                $('#ws-error-response').show();
+                                $('#ws-error-response').html(response.error);
+                            }
+                        }
+                    });
+                    return false;
+                });
+            });
+        });
+    </script>
+<?php endif; ?>

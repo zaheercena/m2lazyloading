@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="wesupply_order_update">
+        <observer name="wesupply_toolbox" instance="WeSupply\Toolbox\Observer\UpdateOrderInfo" />
+    </event>
+
+    <event name="wesupply_return_request">
+        <observer name="wesupply_toolbox" instance="WeSupply\Toolbox\Observer\ReturnRequest" />
+    </event>
+
+    <event name="layout_render_before_cms_page_view">
+        <observer name="wesupply_toolbox" instance="WeSupply\Toolbox\Observer\CmsPageView" />
+    </event>
+
+    <event name="layout_render_before_checkout_index_index">
+        <observer name="wesupply_toolbox_estimations_checkout" instance="WeSupply\Toolbox\Observer\Estimations\DeliveryCheckoutCart" />
+    </event>
+    <event name="layout_render_before_checkout_cart_index">
+        <observer name="wesupply_toolbox_estimations_cart" instance="WeSupply\Toolbox\Observer\Estimations\DeliveryCheckoutCart" />
+    </event>
+</config>

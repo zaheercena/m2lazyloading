@@ -1,0 +1,35 @@
+<?php
+    if($block->getDeliveryEstimationsEnabled() && $block->productIsShippable())
+    {
+        $postCode = $block->getAddressDetail('postcode');
+        $countryCode = $block->getAddressDetail('country_id');
+        $selectedDeliveryInfo = $block->getSelectedDeliveryEstimate();
+        $estimationsAlreadyMade = false;
+        ?>
+        <div id="estimated_content">
+            <strong>Estimated Arrival </strong>
+            <div class="loader" style="display:none">
+                <img style="height:30px" src="<?= /* @escapeNotVerified */ $block->getViewFileUrl('images/loader-1.gif') ?>"
+                     alt="<?= /* @escapeNotVerified */ __('Loading...') ?>">
+            </div>
+            <div id="estimated_response" style="display:none">
+                <span id="date"></span>&nbsp;<span id="pre_zip">at ZIP</span>&nbsp;<span id="zip" style="cursor:pointer; text-decoration:underline" ></span><input class="wesupply_estimations_zip" id="input_zip" value="<?php echo $postCode; ?>" />&nbsp;<span id="country"></span>
+            </div>
+            <div id="error" style="display:none"><span id="error-message" style="color:red"></span></div>
+
+        </div>
+        <script>
+            requirejs(['jquery', 'wesupplyestimations' ],
+                function   ($, wesupplyestimations) {
+                    $(document).ready(function() {
+                        wesupplyestimations.initialize("<?php echo $block->getEstimationsUrl() ?>",  "<?php echo $block->getCurrentStoreId(); ?>", "<?php echo $postCode; ?>", "<?php echo $countryCode; ?>",  "<?php echo $block->getProductPrice(); ?>", "<?php echo  $block->getStoreCurrency(); ?>", "<?php   echo $estimationsAlreadyMade; ?>");
+                    });
+                });
+        </script>
+        
+        <?php
+    }
+?>
+
+
+

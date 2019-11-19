@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="WeSupply_Toolbox::WeSupply" title="WeSupply" module="WeSupply_Toolbox" sortOrder="500" resource="WeSupply_Toolbox::WeSupply"/>
+        <add
+                id="WeSupply_Toolbox::Toolbox_Label"
+                title="WeSupply"
+                module="WeSupply_Toolbox"
+                sortOrder="100"
+                resource="WeSupply_Toolbox::Toolbox_Label"
+                parent="WeSupply_Toolbox::WeSupply"
+        />
+        <add
+                id="WeSupply_Toolbox::Toolbox"
+                title="Configuration"
+                module="WeSupply_Toolbox"
+                action="adminhtml/system_config/edit/section/wesupply_api/"
+                sortOrder="10"
+                parent="WeSupply_Toolbox::Toolbox_Label"
+                resource="WeSupply_Toolbox::Toolbox"
+        />
+    </menu>
+</config>

@@ -1,0 +1,31 @@
+<?php /** @var block WeSupply\Toolbox\Block\System\Config\StoreIdsList */ ?>
+<div style="max-height:250px; background: #e3e3e3;border-color: #adadad;overflow-y: scroll;overflow-x: hidden;">
+    <table cellpadding="10" cellspacing="0" style="margin-left:10px">
+        <thead>
+            <td width="10%"><strong>ID</strong></td>
+            <td width="30%"><strong>Website</strong></td>
+            <td width="30%"><strong>Store</strong></td>
+            <td><strong>Storeview</strong></td>
+        </thead>
+        <?php
+            $websites = $block->getWebsites();
+            foreach ($websites as $website) {
+                $websiteName = $block->htmlEscape($website->getName());
+                $groups = $website->getGroups();
+                foreach ($groups as $group) {
+                    $storeName = $block->htmlEscape($group->getName());
+                    $stores = $group->getStores();
+                    foreach ($stores as $storeView) {
+                        ?><tr>
+                            <td width="10%"><?php echo $storeView->getId(); ?></td>
+                            <td width="30%"><?php echo $websiteName;?></td>
+                            <td width="30%"><?php echo $storeName;?></td>
+                            <td><?php echo  $block->htmlEscape($storeView->getName()); ?></td>
+                        </tr><?php
+
+                    }
+                }
+            }
+    ?>
+    </table>
+</div>

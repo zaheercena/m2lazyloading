@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget class="WeSupply\Toolbox\Block\Widget\Notificationwidget" id="wesupply_toolbox_notificationwidget">
+        <label>WeSupply Toolbox SMS Notification Widget</label>
+        <description></description>
+        <parameters>
+            <parameter name="widget_design" xsi:type="select" visible="true" required="true"
+                       source_model="WeSupply\Toolbox\Model\Config\Source\NotificationDesignMode">
+                <label translate="true">Notification Widget Design</label>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

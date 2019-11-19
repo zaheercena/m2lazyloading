@@ -1,0 +1,62 @@
+<?php
+/** @var \WeSupply\Toolbox\Helper\Data $helper */
+$helper = $this->helper('WeSupply\Toolbox\Helper\Data');
+?>
+<div class="massupdate-container">
+    <p>Some informational message can be added here.</p>
+    <hr/>
+    <br/>
+    <button id="massupdate-btn" title="MassUpdate" type="button" class="primary" role="button" disabled="DISABLED">
+        <span class="ui-button-text">
+            <span><?php echo __('Run Mass Update'); ?></span>
+        </span>
+    </button>
+    <input type="hidden" value="<?php echo $block->getFormKey(); ?>" name="massupdate_form_key" id="massupdate_form_key" />
+
+    <div class="massupdate-progress">
+        <div class="bar">0%</div>
+    </div>
+
+    <div class="massupdate-msg">
+        <p>Here the progress will be  logged:</p>
+    </div>
+</div>
+
+
+<style>
+    .massupdate-progress {
+        width: 100%;
+        background-color: #DDD;
+        margin-top: 20px;
+        display: none;
+    }
+
+    .massupdate-progress .bar {
+        width: 0%;
+        height: 30px;
+        background-color: #eb5202;
+        text-align: center;
+        line-height: 30px;
+        color: white;
+    }
+
+    .massupdate-msg {
+        margin-top: 20px;
+        background-color: #f5f5f5;
+        padding: 20px;
+    }
+
+    .massupdate-msg p {
+        font-weight: bold;
+    }
+</style>
+
+<script>
+    /*
+    requirejs(['jquery', 'WeSupply_Toolbox/js/massUpdater' ],
+        function   ($, massUpdater) {
+            $(document).ready(function() {
+                massUpdater.initialize('php echo $this->getMassUpdateOrderNumberUrl() ?>', 'php echo $this->getMassUpdateUpdateOrdersUrl() ?>', 'php echo $helper->getBatchSize(); ?>');
+            });
+        });*/
+</script>

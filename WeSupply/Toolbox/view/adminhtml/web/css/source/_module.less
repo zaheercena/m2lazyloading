@@ -1,0 +1,100 @@
+#nav {
+    li.item-wesupply {
+        > a {
+            &:before {
+                content: '';
+                background-image: url("../WeSupply_Toolbox/images/icon-wesupply.svg");
+                background-repeat: no-repeat;
+                background-size: 70px;
+                background-position: center;
+                height: 50px;
+            }
+
+            > span {
+                font-size: 0px;
+            }
+        }
+    }
+}
+
+#wesupply_api_step_1_wesupply_subdomain,
+#wesupply_api_step_1_wesupply_subdomain_2,
+#wesupply_api_step_2_wesupply_subdomain,
+#wesupply_api_step_2_access_key {
+    width: 70%;
+}
+
+#row_wesupply_api_step_2_client_name,
+#row_wesupply_api_step_1_client_name,
+#row_wesupply_api_step_2_api_endpoint_info,
+#row_wesupply_api_step_5_estimation_default_carrier {
+    .note {
+        display: inline;
+
+    }
+}
+
+#wesupply_api_step_2_api_endpoint {
+    font-weight: bold;
+}
+
+.section-config {
+    .copy-text {
+        font-size: 12px;
+        padding: 0 10px;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    &.wesupply-toolbox-header {
+        .admin__collapsible-block {
+            display: block !important;
+
+            #wesupply_api_module_information-head {
+                font-size: 1.7rem;
+                font-weight: 600;
+                letter-spacing: .025em;
+                padding-bottom: 0;
+                color: #303030;
+                text-decoration: none;
+            }
+
+            a {
+                font-weight: normal;
+                padding-bottom: 0;
+
+                &:before {
+                    content: '' !important;
+                }
+            }
+
+            table {
+                td.label {
+                    display: none;
+                }
+
+                td.value {
+                    width: 100%;
+                }
+            }
+
+            .bold {
+                font-weight: bold;
+            }
+
+            .red {
+                color: #ff0000;
+            }
+        }
+    }
+
+    #row_wesupply_api_step_1_client_name,
+    #row_wesupply_api_step_2_api_endpoint_info {
+        td.use-default {
+            display: none;
+        }
+    }
+}
